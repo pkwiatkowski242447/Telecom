@@ -24,4 +24,19 @@ public class Message {
         }
         return string_text.toString();
     }
+
+    public int[][] binary_text_to_matrix(String binary_text) {
+        int rows = binary_text.length() / 8;
+        int[][] matrix = new int[rows][8];
+        int h = 0;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (h < binary_text.length())
+                    matrix[i][j] = Character.getNumericValue(binary_text.charAt(h));
+                h++;
+            }
+        }
+        return matrix;
+    }
+
 }
