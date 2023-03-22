@@ -13,35 +13,39 @@ public class MessageRepairClass {
     private final static int fourParityBits = 4;
     private final static int eightParityBits = 8;
 
-    public String stringTo8BitBinaryConversion(byte[] inputMessage) {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (byte someByte : inputMessage) {
-            int byteValue = someByte;
+    public byte[] stringTo8BitBinaryConversion(byte[] inputMessage) {
+        byte[] resultBinaryArray = new byte[inputMessage.length * 8];
+        for (int iterator = 0; iterator < inputMessage.length; iterator++) {
+            int byteValue = inputMessage[iterator];
             for (int i = 0; i < 8; i++) {
-                stringBuilder.append((byteValue & 128) == 0 ? 0 : 1);
+                if ((byteValue & 128) == 0) {
+                    resultBinaryArray[iterator * 8 + i] = 0;
+                } else {
+                    resultBinaryArray[iterator * 8 + i] = 1;
+                }
                 byteValue <<= 1;
             }
         }
-        return stringBuilder.toString();
+        return resultBinaryArray;
     }
 
-    public String eightBitBinaryToStringConversion(String binaryInput) {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int index = 0; index < binaryInput.length(); index += 8) {
-            String temporaryString = binaryInput.substring(index, index + 8);
-            int charValue = Integer.parseInt(temporaryString, 2);
-            char someChar = (char) charValue;
-            stringBuilder.append(someChar);
+    public byte[] eightBitBinaryToStringConversion(byte[] binaryInput) {
+        byte[] resultStringArray = new byte[binaryInput.length / byteSize];
+        int charValue = 0;
+        for (int index = 0; index < binaryInput.length / 8; index++) {
+            for (int j = 0; j < 8; j++) {
+                charValue += correctPow(binaryInput[index * byteSize + j] * 2, 7 - j);
+            }
+            resultStringArray[index] = (byte) charValue;
+            charValue = 0;
         }
-        return stringBuilder.toString();
+        return resultStringArray;
     }
 
     public byte[] changeCharValuesToNumbers(byte[] inputByteArray) {
         byte[] resultArray = new byte[inputByteArray.length];
-        int iterator = 0;
-        for (byte someByte : inputByteArray) {
+        for (int iterator = 0; iterator < inputByteArray.length; iterator++ ) {
             resultArray[iterator] = (byte) (inputByteArray[iterator] - 0x30);
-            iterator++;
         }
         return resultArray;
     }
@@ -56,21 +60,19 @@ public class MessageRepairClass {
         return resultArray;
     }
 
-    public String add4ParityBits(String inputBinaryText) {
-        byte[] byteArrayInputText = changeCharValuesToNumbers(inputBinaryText.getBytes());
+    public byte[] add4ParityBits(byte[] inputBinaryText) {
         byte[] oneByte = new byte[byteSize];
         byte[] arrayOfParityBits = new byte[fourParityBits];
-        byte[] resultArray = new byte[3 * inputBinaryText.getBytes().length / 2];
+        byte[] resultArray = new byte[3 * inputBinaryText.length / 2];
         int currentIndex = 0;
         byte prevInfo = 0;
-        for (int i = 0; i < byteArrayInputText.length;) {
+        for (int i = 0; i < inputBinaryText.length;) {
             for (int j = 0; j < byteSize; j++) {
-                oneByte[j] = byteArrayInputText[i];
+                oneByte[j] = inputBinaryText[i];
                 i++;
             }
             for (int k = 0; k < fourParityBits; k++) {
                 for (int l = 0; l < byteSize; l++) {
-                    // Tu doszło do zmian - nie powinno być błędu
                     prevInfo += oneErrorMatrix[k][l] * oneByte[l];
                 }
                 arrayOfParityBits[k] = (byte) correctModuloFunction(prevInfo, 2);
@@ -81,26 +83,22 @@ public class MessageRepairClass {
             System.arraycopy(arrayOfParityBits, 0 ,resultArray, currentIndex, arrayOfParityBits.length);
             currentIndex += 4;
         }
-        resultArray = changeNumbersToCharValues(resultArray);
-
-        return new String(resultArray, StandardCharsets.UTF_8);
+        return resultArray;
     }
 
-    public String add8ParityBits(String inputBinaryText) {
-        byte[] byteArrayInputText = changeCharValuesToNumbers(inputBinaryText.getBytes());
+    public byte[] add8ParityBits(byte[] inputBinaryText) {
         byte[] oneByte = new byte[byteSize];
         byte[] arrayOfParityBits = new byte[eightParityBits];
-        byte[] resultArray = new byte[2 * inputBinaryText.getBytes().length];
+        byte[] resultArray = new byte[2 * inputBinaryText.length];
         int currentIndex = 0;
         byte prevInfo = 0;
-        for (int i = 0; i < byteArrayInputText.length;) {
+        for (int i = 0; i < inputBinaryText.length;) {
             for (int j = 0; j < byteSize; j++) {
-                oneByte[j] = byteArrayInputText[i];
+                oneByte[j] = inputBinaryText[i];
                 i++;
             }
             for (int k = 0; k < eightParityBits; k++) {
                 for (int l = 0; l < byteSize; l++) {
-                    // Tu doszło do zmian - nie powinno być błędu
                     prevInfo += twoErrorMatrix[k][l] * oneByte[l];
                 }
                 arrayOfParityBits[k] = (byte) correctModuloFunction(prevInfo, 2);
@@ -111,13 +109,10 @@ public class MessageRepairClass {
             System.arraycopy(arrayOfParityBits, 0 ,resultArray, currentIndex, arrayOfParityBits.length);
             currentIndex += 8;
         }
-        resultArray = changeNumbersToCharValues(resultArray);
-
-        return new String(resultArray, StandardCharsets.UTF_8);
+        return resultArray;
     }
 
-    public byte[] correctGivenMessage(String givenMessage, int numberOfParityBits, int[][] correctionArray) {
-        byte[] inputMessageArray = changeCharValuesToNumbers(givenMessage.getBytes());
+    public byte[] correctGivenMessage(byte[] givenMessage, int numberOfParityBits, int[][] correctionArray) {
         byte[] oneByte = new byte[byteSize];
         int iterator = 0;
         byte prevInfo = 0;
@@ -126,13 +121,13 @@ public class MessageRepairClass {
         byte[] matrixColumn = new byte[numberOfParityBits];
         boolean isCorrected = false;
         if (numberOfParityBits == 4) {
-            resultArray = new byte[2 * inputMessageArray.length / 3];
+            resultArray = new byte[2 * givenMessage.length / 3];
         } else {
-            resultArray = new byte[inputMessageArray.length / 2];
+            resultArray = new byte[givenMessage.length / 2];
         }
-        for (int i = 0; i < inputMessageArray.length;) {
+        for (int i = 0; i < givenMessage.length;) {
             for (int j = 0; j < (byteSize + numberOfParityBits); j++) {
-                extendedByte[j] = inputMessageArray[i];
+                extendedByte[j] = givenMessage[i];
                 i++;
             }
             for (int k = 0; k < numberOfParityBits; k++) {
@@ -156,7 +151,7 @@ public class MessageRepairClass {
             iterator += 8;
             isCorrected = false;
         }
-        return changeNumbersToCharValues(resultArray);
+        return resultArray;
     }
 
     private byte[] checkIfThereIsSuchAColumn(byte[] inputByteArray, int numberOfParityBits, byte[] extendedByte) {
@@ -210,5 +205,26 @@ public class MessageRepairClass {
         } else {
             return (firstArg % secondArg) + Math.abs(secondArg);
         }
+    }
+
+    private double correctPow(int firstArg, int secondArg) {
+        if (firstArg != 0 || secondArg != 0) {
+            return Math.pow(firstArg, secondArg);
+        } else {
+            return 0;
+        }
+    }
+
+    private int reqLength(int numberOfParityBits, int arrayLength) {
+        int requiredLength = 0;
+        int nrOfBlocks = arrayLength / (byteSize + numberOfParityBits);
+        if (nrOfBlocks == 0) {
+            requiredLength = (byteSize + numberOfParityBits);
+        } else if (arrayLength % (byteSize + numberOfParityBits) == 0) {
+            requiredLength = (byteSize + numberOfParityBits) * nrOfBlocks;
+        } else {
+            requiredLength = (byteSize + numberOfParityBits) * (nrOfBlocks + 1);
+        }
+        return requiredLength;
     }
 }

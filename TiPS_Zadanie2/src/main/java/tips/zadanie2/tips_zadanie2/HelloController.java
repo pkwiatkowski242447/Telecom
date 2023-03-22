@@ -1,4 +1,4 @@
-package tips.zadanie1.tips_zadanie1;
+package tips.zadanie2.tips_zadanie2;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
