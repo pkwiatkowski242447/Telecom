@@ -34,6 +34,8 @@ public class Controller {
     public void initialize() {
         List<String> options = new ArrayList<>();
         parityBits.getItems().addAll("4","8");
+        textInput.setPromptText("Wprowadź tekst do zakodowania lub odkodowania...");
+
     }
 
     @FXML
@@ -185,4 +187,17 @@ public class Controller {
         }
     }
 
+    @FXML
+    public void showAuthors() {
+        showPupUpWindow("Autorzy programu", "Aleksander Janicki 242405\nPiotr Kwiatkowski 242447");
+    }
+
+    private void showPupUpWindow(String title, String content) {
+        Dialog<String> popUpWin = new Dialog<>();
+        popUpWin.setTitle(title);
+        popUpWin.setContentText(content);
+        ButtonType closeWindow = new ButtonType("Zamknij", ButtonBar.ButtonData.CANCEL_CLOSE);
+        popUpWin.getDialogPane().getButtonTypes().add(closeWindow);
+        popUpWin.show();
+    }
 }

@@ -44,22 +44,10 @@ public class MessageRepairClassTests {
     @Test
     public void testEncoding() {
         byte[] enteredString = "AB".getBytes();
-        System.out.println("Preencoded: ");
-        for (byte oneByte : enteredString) {
-            System.out.println("Byte value: " + oneByte);
-        }
         byte[] binaryRep_1 = MessRepair.stringTo8BitBinaryConversion(enteredString);
         byte[] encodedText = MessRepair.add4ParityBits(binaryRep_1);
-        System.out.println("Encoded: ");
-        for (byte oneByte : encodedText) {
-            System.out.println("Byte value: " + oneByte);
-        }
         byte[] decodedBinary = MessRepair.correctGivenMessage(encodedText, 4, ErrorsRepairClass.oneErrorMatrix);
         byte[] decodedText = MessRepair.eightBitBinaryToStringConversion(decodedBinary);
-        System.out.println("Decoded: ");
-        for (byte oneByte : decodedText) {
-            System.out.println("Byte value: " + oneByte);
-        }
         assertTrue(Arrays.equals(enteredString, decodedText));
     }
 }

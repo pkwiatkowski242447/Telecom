@@ -14,69 +14,102 @@
 
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tips.zadanie1.model.Controller">
     <columnConstraints>
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="50.0" />
-        <ColumnConstraints hgrow="SOMETIMES" maxWidth="281.59998779296876" minWidth="450.0" prefWidth="450.0" />
-        <ColumnConstraints hgrow="SOMETIMES" maxWidth="199.20001220703125" minWidth="10.0" prefWidth="50.0" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="150.0" prefWidth="150.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="281.59998779296876" minWidth="500.0" prefWidth="1000.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="199.20001220703125" minWidth="150.0" prefWidth="150.0" />
     </columnConstraints>
     <rowConstraints>
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="250.0" prefHeight="250.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="300.0" prefHeight="300.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="250.0" prefHeight="250.0" vgrow="SOMETIMES" />
     </rowConstraints>
-   <children>
-       <GridPane GridPane.columnIndex="1" GridPane.rowIndex="2">
-           <columnConstraints>
-               <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" prefWidth="100.0" />
-               <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" prefWidth="100.0" />
-           </columnConstraints>
-           <rowConstraints>
-               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-           </rowConstraints>
-           <children>
-               <Button fx:id="readFromFile" mnemonicParsing="false" onAction="#readFile" text="Wczytaj z pliku" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-               <Button fx:id="saveToFile" mnemonicParsing="false" onAction="#saveFile" text="Zapisz do pliku" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-               <Button fx:id="editBinary" mnemonicParsing="false" onAction="#editBinaryString" text="Edycja binarna" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-               <Button fx:id="saveChanges" mnemonicParsing="false" onAction="#saveBinaryChanges" text="Zapisz zmiany" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-               <Button fx:id="readEncoded" mnemonicParsing="false" onAction="#readEncodedText" prefHeight="42.0" prefWidth="130.0" text="Wczytaj zakodowany tekst" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-               <Button fx:id="saveEncoded" mnemonicParsing="false" onAction="#saveEncodedText" prefHeight="44.0" prefWidth="136.0" text="Zapisz zakodowany tekst" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-           </children>
-       </GridPane>
-       <Text strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
-      <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
-         <children>
-             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="62.0" prefWidth="267.0" text="Telekomunikacja i przetwarzanie sygnałów" textAlignment="CENTER" wrapText="true">
-                 <font>
-                     <Font name="Times New Roman Bold" size="19.0" />
-                 </font>
-                 <VBox.margin>
-                     <Insets left="100.0" right="100.0" top="50.0" />
-                 </VBox.margin>
-             </Label>
-             <GridPane prefHeight="98.0" prefWidth="450.0">
-                 <columnConstraints>
-                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                 </columnConstraints>
-                 <rowConstraints>
-                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                 </rowConstraints>
-                 <VBox.margin>
-                     <Insets top="50.0" />
-                 </VBox.margin>
-                 <children>
-                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Liczba bitów parzystości" textAlignment="CENTER" wrappingWidth="166.483154296875" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                         <font>
-                             <Font size="18.0" />
-                         </font>
-                     </Text>
-                     <ChoiceBox fx:id="parityBits" prefWidth="150.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                 </children>
-             </GridPane>
-         </children>
-      </VBox>
-       <TextArea fx:id="textInput" prefHeight="200.0" prefWidth="200.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-   </children>
+    <children>
+        <GridPane GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" prefWidth="100.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Button fx:id="readFromFile" mnemonicParsing="false" onAction="#readFile" prefHeight="50.0" prefWidth="130.0" text="Wczytaj z pliku" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                    <font>
+                        <Font name="Times New Roman" size="14.0" />
+                    </font>
+                </Button>
+                <Button fx:id="saveToFile" mnemonicParsing="false" onAction="#saveFile" prefHeight="50.0" prefWidth="130.0" text="Zapisz do pliku" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                    <font>
+                        <Font name="Times New Roman" size="14.0" />
+                    </font>
+                </Button>
+                <Button fx:id="editBinary" mnemonicParsing="false" onAction="#editBinaryString" prefHeight="50.0" prefWidth="130.0" text="Edycja binarna" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                    <font>
+                        <Font name="Times New Roman" size="14.0" />
+                    </font>
+                </Button>
+                <Button fx:id="saveChanges" mnemonicParsing="false" onAction="#saveBinaryChanges" prefHeight="50.0" prefWidth="130.0" text="Zapisz zmiany" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                    <font>
+                        <Font name="Times New Roman" size="14.0" />
+                    </font>
+                </Button>
+                <Button fx:id="readEncoded" mnemonicParsing="false" onAction="#readEncodedText" prefHeight="50.0" prefWidth="130.0" text="Wczytaj zakodowany tekst" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                    <font>
+                        <Font name="Times New Roman" size="14.0" />
+                    </font>
+                </Button>
+                <Button fx:id="saveEncoded" mnemonicParsing="false" onAction="#saveEncodedText" prefHeight="50.0" prefWidth="130.0" text="Zapisz zakodowany tekst" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                    <font>
+                        <Font name="Times New Roman" size="14.0" />
+                    </font>
+                </Button>
+                <Button fx:id="authors" maxHeight="50.0" maxWidth="130.0" mnemonicParsing="false" onAction="#showAuthors" text="Autorzy programu" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                    <font>
+                        <Font name="Times New Roman Bold Italic" size="14.0" />
+                    </font>
+                </Button>
+            </children>
+        </GridPane>
+        <Text strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
+        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
+            <children>
+                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="66.0" prefWidth="298.0" text="Telekomunikacja i przetwarzanie sygnałów" textAlignment="CENTER" wrapText="true">
+                    <font>
+                        <Font name="Times New Roman Bold" size="24.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets left="100.0" right="100.0" top="25.0" />
+                    </VBox.margin>
+                </Label>
+                <GridPane prefHeight="98.0" prefWidth="450.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <VBox.margin>
+                        <Insets top="50.0" />
+                    </VBox.margin>
+                    <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Liczba bitów parzystości" textAlignment="CENTER" wrappingWidth="166.483154296875" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                            <font>
+                                <Font name="Times New Roman" size="18.0" />
+                            </font>
+                        </Text>
+                        <ChoiceBox fx:id="parityBits" prefHeight="30.0" prefWidth="150.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                    </children>
+                </GridPane>
+            </children>
+        </VBox>
+        <TextArea fx:id="textInput" prefHeight="200.0" prefWidth="200.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </TextArea>
+    </children>
 </GridPane>

@@ -81,7 +81,15 @@ public class MessageRepairClass {
             System.arraycopy(arrayOfParityBits, 0 ,resultArray, currentIndex, arrayOfParityBits.length);
             currentIndex += 4;
         }
-        return resultArray;
+        if (currentIndex % 16 != 0) {
+            byte[] finalResultArray = new byte[resultArray.length + 4];
+            byte[] zeroByteArray = {0, 0, 0, 0};
+            System.arraycopy(resultArray, 0, finalResultArray, 0,resultArray.length);
+            System.arraycopy(zeroByteArray, 0, finalResultArray, resultArray.length, zeroByteArray.length );
+            return finalResultArray;
+        } else {
+            return resultArray;
+        }
     }
 
     public byte[] add8ParityBits(byte[] inputBinaryText) {
@@ -124,30 +132,34 @@ public class MessageRepairClass {
             resultArray = new byte[givenMessage.length / 2];
         }
         for (int i = 0; i < givenMessage.length;) {
-            for (int j = 0; j < (byteSize + numberOfParityBits); j++) {
-                extendedByte[j] = givenMessage[i];
+            if (i + (byteSize + numberOfParityBits) <= givenMessage.length) {
+                for (int j = 0; j < (byteSize + numberOfParityBits); j++) {
+                    extendedByte[j] = givenMessage[i];
+                    i++;
+                }
+                for (int k = 0; k < numberOfParityBits; k++) {
+                    for (int l = 0; l < extendedByte.length; l++) {
+                        prevInfo += correctionArray[k][l] * extendedByte[l];
+                    }
+                    matrixColumn[k] = (byte) correctModuloFunction(prevInfo, 2);
+                    prevInfo = 0;
+                }
+                for (int m = 0; m < numberOfParityBits; m++) {
+                    if (matrixColumn[m] != 0) {
+                        oneByte = checkIfThereIsSuchAColumn(matrixColumn, numberOfParityBits, extendedByte);
+                        isCorrected = true;
+                        break;
+                    }
+                }
+                if (!isCorrected) {
+                    System.arraycopy(extendedByte, 0, oneByte, 0, byteSize);
+                }
+                System.arraycopy(oneByte, 0, resultArray, iterator, byteSize);
+                iterator += 8;
+                isCorrected = false;
+            } else {
                 i++;
             }
-            for (int k = 0; k < numberOfParityBits; k++) {
-                for (int l = 0; l < extendedByte.length; l++) {
-                    prevInfo += correctionArray[k][l] * extendedByte[l];
-                }
-                matrixColumn[k] = (byte) correctModuloFunction(prevInfo, 2);
-                prevInfo = 0;
-            }
-            for (int m = 0; m < numberOfParityBits; m++) {
-                if (matrixColumn[m] != 0) {
-                    oneByte = checkIfThereIsSuchAColumn(matrixColumn, numberOfParityBits, extendedByte);
-                    isCorrected = true;
-                    break;
-                }
-            }
-            if (!isCorrected) {
-                System.arraycopy(extendedByte, 0, oneByte, 0, byteSize);
-            }
-            System.arraycopy(oneByte, 0, resultArray, iterator, byteSize);
-            iterator += 8;
-            isCorrected = false;
         }
         return resultArray;
     }
