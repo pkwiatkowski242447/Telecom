@@ -1,11 +1,9 @@
-package tips.zadanie1.tips_zadanie1;
+package tips.zadanie1.model;
 
-import java.lang.reflect.Array;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
-import static tips.zadanie1.tips_zadanie1.ErrorsRepairClass.oneErrorMatrix;
-import static tips.zadanie1.tips_zadanie1.ErrorsRepairClass.twoErrorMatrix;
+import static tips.zadanie1.model.ErrorsRepairClass.oneErrorMatrix;
+import static tips.zadanie1.model.ErrorsRepairClass.twoErrorMatrix;
 
 public class MessageRepairClass {
 

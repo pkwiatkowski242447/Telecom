@@ -3,6 +3,6 @@ module tips.zadanie1.tips_zadanie1 {
     requires javafx.fxml;
 
 
-    opens tips.zadanie1.tips_zadanie1 to javafx.fxml;
-    exports tips.zadanie1.tips_zadanie1;
+    opens tips.zadanie1.model to javafx.fxml;
+    exports tips.zadanie1.model;
 }

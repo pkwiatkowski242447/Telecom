@@ -1,4 +1,4 @@
-package tips.zadanie1.tips_zadanie1;
+package tips.zadanie1.model;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -6,7 +6,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ResourceBundle;
 
 public class StageSetup {
 

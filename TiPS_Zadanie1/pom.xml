@@ -60,7 +60,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>tips.zadanie1.tips_zadanie1/tips.zadanie1.tips_zadanie1.TelecomApp
+                            <mainClass>tips.zadanie1.tips_zadanie1/tips.zadanie1.model.TelecomApp
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

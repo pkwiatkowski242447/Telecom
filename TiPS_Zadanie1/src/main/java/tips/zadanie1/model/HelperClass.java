@@ -1,4 +1,4 @@
-package tips.zadanie1.tips_zadanie1;
+package tips.zadanie1.model;
 
 public class HelperClass {
 

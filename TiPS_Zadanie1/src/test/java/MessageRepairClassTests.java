@@ -1,14 +1,13 @@
 import org.junit.jupiter.api.Test;
-import tips.zadanie1.tips_zadanie1.ErrorsRepairClass;
+import tips.zadanie1.model.ErrorsRepairClass;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MessageRepairClassTests {
 
-    private tips.zadanie1.tips_zadanie1.MessageRepairClass MessRepair = new tips.zadanie1.tips_zadanie1.MessageRepairClass();
+    private tips.zadanie1.model.MessageRepairClass MessRepair = new tips.zadanie1.model.MessageRepairClass();
 
     @Test
     public void convertStringToBinaryTest() {
