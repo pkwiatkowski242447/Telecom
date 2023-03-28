@@ -9,7 +9,18 @@ import java.io.IOException;
 
 public class StageSetup {
 
-    private static Stage stage;
+    /*
+        Ta klasa wykorzystywana jest to budowania okna zawierającego graficzny interfejs użytkownika.
+
+        Na klasę składaja się przeciążona metoda buildStage(), która przyjumje różną liczbę paramterów, w zależności
+        od potrzeb.
+
+        Z powodu, że dane jest okno, w którym mogą się użytkownikowi wyświetlać elementy interfejsu - to trzeba również
+        zachować referencję do tego okna (w postaci primaryStage)
+
+        Metoda fxmlFileLoad() odpowiada za załadowanie odpowiedniego formularza, zawierającego kontrolki, pola tekstowe
+        itd.
+     */
 
     private static Stage primaryStage;
 

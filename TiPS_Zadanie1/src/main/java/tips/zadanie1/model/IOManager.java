@@ -16,6 +16,15 @@ public class IOManager {
         this.fileName = fileName;
     }
 
+    /*
+        Metoda wykorzysytwana do zapisu tablicy bajtów do pliku.
+
+        @ byteArray -> tablica bajtów, która ma zostać zapisana do pliku
+
+        @IOManagerWriteException -> wyjątek, który może pojawić się w ramach wykonywania operacji zapisu, świadczący
+        o niepowodzeniu operacji
+     */
+
     public void saveBytesToFile(byte[] byteArray) throws IOManagerWriteException {
         try (FileOutputStream fileOut = new FileOutputStream(fileName)) {
             fileOut.write(byteArray);
@@ -23,6 +32,15 @@ public class IOManager {
             throw new IOManagerWriteException("Nie powiodło się wykonanie operacji wyjścia.", exc);
         }
     }
+
+    /*
+        Metoda wykorzysytwana do odczytu tablicy bajtów z pliku.
+
+        @ fileName -> nazwa pliku, z którego tablica bajtów ma zostać odczytana
+
+        @IOManagerReadException -> wyjątek, który może pojawić się w ramach wykonywania operacji zapisu, świadczący
+        o niepowodzeniu operacji
+     */
 
     public byte[] readBytesFromFile(String fileName) throws IOManagerReadException {
         byte[] byteArray;

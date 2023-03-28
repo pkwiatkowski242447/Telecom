@@ -7,9 +7,22 @@ import static tips.zadanie1.model.ErrorsRepairClass.twoErrorMatrix;
 
 public class MessageRepairClass {
 
+    /*
+        Stała dla rozmiaru bajtu - jako oktetu, czyli ośmiu bitów.
+     */
     private final static int byteSize = 8;
+
+    /*
+    `   Stałe przechowujące liczbę dodawanych bitów parzystości.
+     */
     private final static int fourParityBits = 4;
     private final static int eightParityBits = 8;
+
+    /*
+        Metoda służąca do konwersji tablicy bajtów, zawierającej kody ASCII, na tablicę bajtów
+        zawierającą odpowiednie znaki w formie binarnej - jednym słowem wydłuża to ośmiokrotnie podstawową
+        tablicę bajtów, gdzie na każdym bajcie przenoszona jest informacja, o tym czy jest to 0 czy 1.
+     */
 
     public byte[] stringTo8BitBinaryConversion(byte[] inputMessage) {
         byte[] resultBinaryArray = new byte[inputMessage.length * 8];
@@ -27,6 +40,11 @@ public class MessageRepairClass {
         return resultBinaryArray;
     }
 
+    /*
+        Metoda służąca do konwersji tablicy bajtów, zawierającej na kolejnych elementach bity, na tablicę bajtów
+        zawierającą kody znaków ASCII, uzyskane w wyniku konwersji binarnego ciągu znaków na wartość dziesiętną.
+     */
+
     public byte[] eightBitBinaryToStringConversion(byte[] binaryInput) {
         byte[] resultStringArray = new byte[binaryInput.length / byteSize];
         int charValue = 0;
@@ -40,6 +58,14 @@ public class MessageRepairClass {
         return resultStringArray;
     }
 
+    /*
+        Metoda służąca do zamiany tablicy bajtów, w której kolejne elemetny stanowią wartości kody ASCII
+        poszczególnych cyfr, na tablicę bajtów, która na kolejnych bajtach zawiera wartości dziesiętne tych cyfr.
+        Wykorzysytwana jest głównie do konwersji tablicy bajtów zawierającej kody ASCII zer i jedynek, na tablicę batjów
+        zawierających wartości dziesiętne - w celu łatwej konwersji z łańcucha znaków do postaci binarnej (w celu zapisu
+        zmian w formie binarnej).
+     */
+
     public byte[] changeCharValuesToNumbers(byte[] inputByteArray) {
         byte[] resultArray = new byte[inputByteArray.length];
         for (int iterator = 0; iterator < inputByteArray.length; iterator++ ) {
@@ -47,6 +73,13 @@ public class MessageRepairClass {
         }
         return resultArray;
     }
+
+    /*
+        Metoda służąca do zamiany tablicy bajtów, w której kolejne elemetny stanowią wartości dziesiętne
+        poszczególnych cyfr, na tablicę bajtów, która na kolejnych bajtach zawiera kody ASCII tych cyfr.
+        Wykorzysytwana jest głównie do konwersji tablicy bajtów zawierającej kod binarny, na tablicę batjów
+        zawierających kody ASCII dla zer i jedynek - w celu łatwej konwersji do łańcucha znaków (do edycji binarnej).
+     */
 
     public byte[] changeNumbersToCharValues(byte[] inputByteArray) {
         byte[] resultArray = new byte[inputByteArray.length];
@@ -57,6 +90,12 @@ public class MessageRepairClass {
         }
         return resultArray;
     }
+
+    /*
+        Metoda wykorzysytwana do dodania 4 bitów parzystości do wiadomości wejściowej. Bity obliczane są na
+        podstawie iloczynu wiadomości początkowej (np. poszczególnych znaków), ich zsumowanie i przeniesienie na drugą
+        stronę równania (wszystkie operacje są oczywiście modulo 2).
+     */
 
     public byte[] add4ParityBits(byte[] inputBinaryText) {
         byte[] oneByte = new byte[byteSize];
@@ -92,6 +131,12 @@ public class MessageRepairClass {
         }
     }
 
+    /*
+        Metoda wykorzysytwana do dodania 8 bitów parzystości do wiadomości wejściowej. Bity obliczane są na
+        podstawie iloczynu wiadomości początkowej (np. poszczególnych znaków), ich zsumowanie i przeniesienie na drugą
+        stronę równania (wszystkie operacje są oczywiście modulo 2).
+     */
+
     public byte[] add8ParityBits(byte[] inputBinaryText) {
         byte[] oneByte = new byte[byteSize];
         byte[] arrayOfParityBits = new byte[eightParityBits];
@@ -117,6 +162,13 @@ public class MessageRepairClass {
         }
         return resultArray;
     }
+
+    /*
+        Metoda wykorzysytwana do sprawdzenia czy występuje przekłamanie na jakimkolwiek bicie - w związku z tym oblicza
+        dla każdego bajtu wiadomości (tj. givenMessage) iloczyn z macierzą H i sprawdza czy jest on wektorem zerowym - jeżeli
+        nie to następuje przejście do metody checkIfThereIsSuchAColumn(), a w sytuacji przeciwnej oznacza to, że na danym
+        bajcie nie występuje żadne przekłamanie.
+     */
 
     public byte[] correctGivenMessage(byte[] givenMessage, int numberOfParityBits, int[][] correctionArray) {
         byte[] oneByte = new byte[byteSize];
@@ -164,6 +216,14 @@ public class MessageRepairClass {
         return resultArray;
     }
 
+    /*
+        Poniższa metoda służy do sprawdzenia, w sytaucji, w której występuje przekłamanie na odpowiedniej
+        liczbie bitów - czy istnieje kolumna (w przypadku kodu z 4 bitami parzystości) lub też czy istnieja kolumny (w
+        przypadku kodu z 8 bitami parzystości), których suma daje uzyskany w wyniku mnożenia wiadomości wejściowej
+        przez macierz H wektor. Jeżeli taka sytuacja zachodzi, to owa metoda dokona zmian na odpowiednich bitach,
+        przez co efektywnie naprawi uszkodzoną wiadomość.
+     */
+
     private byte[] checkIfThereIsSuchAColumn(byte[] inputByteArray, int numberOfParityBits, byte[] extendedByte) {
         boolean isCorrect = false;
         byte[] byteWithPBits = new byte[extendedByte.length];
@@ -209,6 +269,16 @@ public class MessageRepairClass {
         return resultByte;
     }
 
+    /*
+        Metoda wykorzystywana do obliczania wyniku operacji firstArg mod secondArg.
+
+        Wynika to z faktu, że operacja % (reszta z dzielenia) potrafi zwrócić wynik ujemny, co nie jest
+        zgodne z założeniami matematycznymi tej operacji.
+
+        & firstArg      -> liczba całkowita, której resztę z dzielenia przez secondArg chcemy obliczyć
+        & secondArg     -> liczba naturalna, która wykorzystana jest w owej operacji jako dzielnik
+     */
+
     private int correctModuloFunction(int firstArg, int secondArg) {
         if (firstArg >= 0) {
             return firstArg % secondArg;
@@ -218,6 +288,13 @@ public class MessageRepairClass {
             return (firstArg % secondArg) + Math.abs(secondArg);
         }
     }
+
+    /*
+        Metoda służąca do podnoszenia wartości całkowitej do całkowitej potęgi.
+
+        @ firstArg      -> liczba całkowita, która będzie podnoszona do potęgi
+        @ secondArg     -> potęga całkowita, do której będzie podnoszona liczba
+     */
 
     private double correctPow(int firstArg, int secondArg) {
         if (firstArg != 0 || secondArg != 0) {

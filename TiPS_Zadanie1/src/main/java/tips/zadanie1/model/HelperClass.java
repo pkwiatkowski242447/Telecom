@@ -4,27 +4,10 @@ public class HelperClass {
 
     private static final byte[] HEX_TABLE = "0123456789ABCDEF".getBytes();
 
-    public static void printMenu() {
-        System.out.println("===== MENU =====");
-        System.out.println("1. Zakodowanie podanego łańcucha znaków.");
-        System.out.println("2. Odkodowanie podanego łańcucha znaków.");
-        System.out.println("3. Zakończenie działania programu.");
-        System.out.println("================");
-    }
-
-    public static void printTextChoice() {
-        System.out.println("===== Wybór sposobu wprowadzania znaków =====");
-        System.out.println("1. Wpisanie znaku z klawiatury.");
-        System.out.println("2. Wczytanie znaku z pliku.");
-        System.out.println("=============================================");
-    }
-
-    public static void printParityBitsChoice() {
-        System.out.println("===== Wybór liczby bitów parzystości =====");
-        System.out.println("1. Kodowanie naprawiające jeden błąd (4 bity).");
-        System.out.println("2. Kodowanie naprawiające jeden lub dwa błędy (8 bitów).");
-        System.out.println("==========================================");
-    }
+    /*
+        Metoda wykorzystywana do konwersji zadanej tablicy bajtów do tablicy bajtów zawierającej kody
+        ASCII znaków heksadecymalnych (tj. szesnastkowych).
+     */
 
     public static byte[] convertHexToByteArray(byte[] inputHexArray) {
         byte[] outputByteArray = new byte[inputHexArray.length / 2];
@@ -33,6 +16,12 @@ public class HelperClass {
         }
         return outputByteArray;
     }
+
+    /*
+        Metoda wykorzystywana do konwersji zadanej tablicy bajtów, zawierającej kody ASCII znaków heksadecymalnych
+        (tj. szesnastkowych) do tablicy bajtów, zawierającej bajty - gdzie na jeden taki bajt składają się dwa znaki
+        heksadecymalne.
+     */
 
     public static byte[] convertByteArrayToHex(byte[] inputByteArray) {
         byte[] outputHexArray = new byte[2 * inputByteArray.length];
@@ -44,6 +33,10 @@ public class HelperClass {
         return outputHexArray;
     }
 
+    /*
+        Metoda służąca do ustalenia wartości dziesiętnej znaku heksadecymalnego.
+     */
+
     private static int digitValue(byte value) {
         for (int i = 0; i < HEX_TABLE.length; i++) {
             if (value == HEX_TABLE[i]) {
@@ -52,6 +45,11 @@ public class HelperClass {
         }
         return -1;
     }
+
+    /*
+        Metoda sprawdzająca wymagania formalne dla tablicy wykorzystywanej do poprawiania dwóch błędów
+        bitowych. Zwraca ona wartość logiczną true, jeżeli wymagania są przez macierz spełnione.
+     */
 
     public static boolean checkTwoErrorMatrixCorrectness(int[][] errorCorrectionMatrix) {
         int numberOfDifferentBits;
@@ -113,6 +111,11 @@ public class HelperClass {
         }
         return true;
     }
+
+    /*
+        Metoda sprawdzająca wymagania formalne dla tablicy wykorzystywanej do poprawiania jednego błędu
+        bitowego. Zwraca ona wartość logiczną true, jeżeli wymagania są przez macierz spełnione.
+     */
 
     public static boolean checkOneErrorMatrixCorrectness(int[][] errorCorrectionMatrix) {
 
