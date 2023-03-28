@@ -1,5 +1,7 @@
 package telekomuna;
 
+import java.util.BitSet;
+
 public class Message_Repair {
 
     public static int[][] oneErrorMatrix = {
@@ -19,6 +21,12 @@ public class Message_Repair {
             {1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0},
             {1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1}
     };
+
+    private int h = 0;
+
+    private int k = 0;
+    private int g = 8;
+    private int index_with_1 = 0;
 
     public String convert_string_to_binary(byte[] text) {
         StringBuilder in_binary = new StringBuilder();
@@ -43,16 +51,16 @@ public class Message_Repair {
         return string_text.toString();
     }
 
-    public int[][] add4ParityBits(String binary_text) {
+    public byte[] add4ParityBits(String binary_text) {
         int rows = binary_text.length() / 8;
-        int[][] matrix = new int[rows][12];
-        int h = 0;
-        int g = 8;
-        int index_with_1 = 0;
+        BitSet bs = new BitSet();
+        byte[][] matrix = new byte[rows][12];
+        int matrix_to_file_size = rows * 12;
+        byte[] matrix_to_file = new byte[matrix_to_file_size];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < 8; j++) {
                 if (h < binary_text.length())
-                    matrix[i][j] = Character.getNumericValue(binary_text.charAt(h));
+                    matrix[i][j] = (byte) Character.getNumericValue(binary_text.charAt(h));
                 h++;
             }
         }
@@ -66,8 +74,6 @@ public class Message_Repair {
                 if (g < 12) {
                     if (index_with_1 % 2 != 0) {
                         matrix[i][g] = 1;
-                        System.out.println(i);
-                        System.out.println(g);
                     } else {
                         matrix[i][g] = 0;
                     }
@@ -77,6 +83,57 @@ public class Message_Repair {
             }
             g = 8;
         }
-        return matrix;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < 12; j++) {
+                if (k < matrix_to_file_size) {
+                    matrix_to_file[k] = matrix[i][j];
+                    k++;
+                }
+            }
+        }
+        return matrix_to_file;
+    }
+
+    public byte[] add8ParityBits(String binary_text) {
+        int rows = binary_text.length() / 8;
+        int matrix_to_file_size = rows * 16;
+        byte[][] matrix = new byte[rows][16];
+        byte[] matrix_to_file = new byte[matrix_to_file_size];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (h < binary_text.length())
+                    matrix[i][j] = (byte) Character.getNumericValue(binary_text.charAt(h));
+                h++;
+            }
+        }
+        for (int i = 0; i < rows; i++) {
+            for (int l = 0; l < 8; l++) {
+                for (int j = 0; j < 8; j++) {
+                    if (twoErrorMatrix[l][j] == 1 && matrix[i][j] == 1) {
+                        index_with_1 += 1;
+                    }
+                }
+                if (g < 16) {
+                    if (index_with_1 % 2 != 0) {
+                        matrix[i][g] = 1;
+                    } else {
+                        matrix[i][g] = 0;
+                    }
+                }
+                g++;
+                index_with_1 = 0;
+            }
+            g = 8;
+        }
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < 16; j++) {
+                if (k < matrix_to_file_size) {
+                    matrix_to_file[k] = matrix[i][j];
+                    k++;
+                }
+            }
+        }
+
+        return matrix_to_file;
     }
 }
