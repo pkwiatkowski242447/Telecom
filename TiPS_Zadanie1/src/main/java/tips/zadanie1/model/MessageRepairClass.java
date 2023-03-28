@@ -166,45 +166,47 @@ public class MessageRepairClass {
 
     private byte[] checkIfThereIsSuchAColumn(byte[] inputByteArray, int numberOfParityBits, byte[] extendedByte) {
         boolean isCorrect = false;
-        byte[] oneByte = new byte[byteSize];
-        System.arraycopy(extendedByte, 0, oneByte, 0, byteSize);
+        byte[] byteWithPBits = new byte[extendedByte.length];
+        byte[] resultByte = new byte[byteSize];
+        System.arraycopy(extendedByte, 0, byteWithPBits, 0, extendedByte.length);
         if (numberOfParityBits != 8) {
             numberOfParityBits = 4;
             byte[] subColumn = new byte[fourParityBits];
-            for (int i = 0; i < byteSize; i++) {
+            for (int i = 0; i < extendedByte.length; i++) {
                 for (int j = 0; j < numberOfParityBits; j++) {
                     subColumn[j] = (byte) oneErrorMatrix[j][i];
                 }
                 if (Arrays.equals(subColumn, inputByteArray) && !isCorrect) {
-                    oneByte[i] = (byte) ((extendedByte[i] + 1) % 2);
+                    byteWithPBits[i] = (byte) ((extendedByte[i] + 1) % 2);
                     isCorrect = true;
                 }
             }
         } else {
             byte[] subColumn = new byte[eightParityBits];
-            for (int i = 0; i < byteSize; i++) {
+            for (int i = 0; i < extendedByte.length; i++) {
                 for (int j = 0; j < byteSize; j++) {
                     subColumn[j] = (byte) twoErrorMatrix[j][i];
                 }
                 if (Arrays.equals(subColumn, inputByteArray) && !isCorrect) {
-                    oneByte[i] = (byte) ((extendedByte[i] + 1) % 2);
+                    byteWithPBits[i] = (byte) ((extendedByte[i] + 1) % 2);
                     isCorrect = true;
                 }
             }
-            for (int i = 0; i < byteSize; i++) {
-                for (int k = 0; k < byteSize; k++) {
+            for (int i = 0; i < extendedByte.length; i++) {
+                for (int k = i + 1; k < extendedByte.length; k++) {
                     for (int j = 0; j < numberOfParityBits; j++) {
                         subColumn[j] = (byte) correctModuloFunction(twoErrorMatrix[j][i] + twoErrorMatrix[j][k], 2);
                     }
                     if (Arrays.equals(subColumn, inputByteArray) && !isCorrect) {
-                        oneByte[i] = (byte) ((extendedByte[i] + 1) % 2);
-                        oneByte[k] = (byte) ((extendedByte[k] + 1) % 2);
+                        byteWithPBits[i] = (byte) ((extendedByte[i] + 1) % 2);
+                        byteWithPBits[k] = (byte) ((extendedByte[k] + 1) % 2);
                         isCorrect = true;
                     }
                 }
             }
         }
-        return oneByte;
+        System.arraycopy(byteWithPBits, 0, resultByte, 0, byteSize);
+        return resultByte;
     }
 
     private int correctModuloFunction(int firstArg, int secondArg) {
@@ -223,18 +225,5 @@ public class MessageRepairClass {
         } else {
             return 0;
         }
-    }
-
-    private int reqLength(int numberOfParityBits, int arrayLength) {
-        int requiredLength = 0;
-        int nrOfBlocks = arrayLength / (byteSize + numberOfParityBits);
-        if (nrOfBlocks == 0) {
-            requiredLength = (byteSize + numberOfParityBits);
-        } else if (arrayLength % (byteSize + numberOfParityBits) == 0) {
-            requiredLength = (byteSize + numberOfParityBits) * nrOfBlocks;
-        } else {
-            requiredLength = (byteSize + numberOfParityBits) * (nrOfBlocks + 1);
-        }
-        return requiredLength;
     }
 }
