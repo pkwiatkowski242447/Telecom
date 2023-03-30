@@ -1,5 +1,6 @@
 package telekomuna;
 
+import java.nio.ByteBuffer;
 import java.util.BitSet;
 
 public class Message_Repair {
@@ -94,15 +95,15 @@ public class Message_Repair {
         return matrix_to_file;
     }
 
-    public byte[] add8ParityBits(String binary_text) {
+    public int[] add8ParityBits(String binary_text) {
         int rows = binary_text.length() / 8;
         int matrix_to_file_size = rows * 16;
-        byte[][] matrix = new byte[rows][16];
-        byte[] matrix_to_file = new byte[matrix_to_file_size];
+        int[][] matrix = new int[rows][16];
+        int[] matrix_helper = new int[matrix_to_file_size];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < 8; j++) {
                 if (h < binary_text.length())
-                    matrix[i][j] = (byte) Character.getNumericValue(binary_text.charAt(h));
+                    matrix[i][j] = Character.getNumericValue(binary_text.charAt(h));
                 h++;
             }
         }
@@ -128,12 +129,11 @@ public class Message_Repair {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < 16; j++) {
                 if (k < matrix_to_file_size) {
-                    matrix_to_file[k] = matrix[i][j];
+                    matrix_helper[k] = matrix[i][j];
                     k++;
                 }
             }
         }
-
-        return matrix_to_file;
+        return matrix_helper;
     }
 }

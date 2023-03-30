@@ -9,7 +9,7 @@ public class Main {
         FileManager fileManager_object = new FileManager("binary_output.txt");
         Scanner sc = new Scanner(System.in);
         System.out.println("Podaj wiadomość: ");
-        byte[] lala;
+        int[] lala;
         String string_in_binary;
         String message_input = sc.nextLine();
         string_in_binary = message_object.convert_string_to_binary(message_input.getBytes());
