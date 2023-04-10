@@ -236,18 +236,18 @@ public class Controller {
                     byte[] decodedRepresentation = MessRepair.correctGivenMessage(binaryRepresentation, 4, ErrorsRepairClass.oneErrorMatrix);
                     byte[] textRepresentation = MessRepair.eightBitBinaryToStringConversion(decodedRepresentation);
                     if (binaryContent.isSelected()) {
-                        textInput.setText(new String(HelperClass.convertByteArrayToHex(textRepresentation), StandardCharsets.US_ASCII));
+                        textInput.setText(new String(HelperClass.convertByteArrayToHex(textRepresentation), StandardCharsets.UTF_8));
                     } else {
-                        textInput.setText(new String(textRepresentation, StandardCharsets.US_ASCII));
+                        textInput.setText(new String(textRepresentation, StandardCharsets.UTF_8));
                     }
                 } else {
                     byte[] binaryRepresentation = MessRepair.stringTo8BitBinaryConversion(someTextFromFile);
                     byte[] decodedRepresentation = MessRepair.correctGivenMessage(binaryRepresentation, 8, ErrorsRepairClass.twoErrorMatrix);
                     byte[] textRepresentation = MessRepair.eightBitBinaryToStringConversion(decodedRepresentation);
                     if (binaryContent.isSelected()) {
-                        textInput.setText(new String(HelperClass.convertByteArrayToHex(textRepresentation), StandardCharsets.US_ASCII));
+                        textInput.setText(new String(HelperClass.convertByteArrayToHex(textRepresentation), StandardCharsets.UTF_8));
                     } else {
-                        textInput.setText(new String(textRepresentation, StandardCharsets.US_ASCII));
+                        textInput.setText(new String(textRepresentation, StandardCharsets.UTF_8));
                     }
                 }
             } catch (IOManagerReadException readException) {

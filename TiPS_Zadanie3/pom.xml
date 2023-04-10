@@ -4,26 +4,26 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>tips.zadanie2</groupId>
-    <artifactId>TiPS_Zadanie2</artifactId>
+    <groupId>tips.zadanie3</groupId>
+    <artifactId>TiPS_Zadanie3</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>TiPS_Zadanie2</name>
+    <name>TiPS_Zadanie3</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <junit.version>5.8.2</junit.version>
+        <junit.version>5.9.2</junit.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>17.0.2</version>
+            <version>19.0.2.1</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>17.0.2</version>
+            <version>19.0.2.1</version>
         </dependency>
 
         <dependency>
@@ -37,6 +37,11 @@
             <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.12.0</version>
         </dependency>
     </dependencies>
 
@@ -60,7 +65,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>tips.zadanie2.tips_zadanie2/tips.zadanie2.tips_zadanie2.HelloApplication
+                            <mainClass>tips.zadanie3.tips_zadanie3/tips.zadanie3.tips_zadanie3.TiPSApplication
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
