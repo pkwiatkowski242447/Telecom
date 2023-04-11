@@ -36,13 +36,66 @@ public class UserActionController {
     @FXML
     private Button finishButton;
 
+    /*
+        Comment: Above attributes are used mainly for styling combo-boxes, disabling buttons
+        and so on.
+     */
+
+    /*
+        @ serverFunctionality: Attribute used for holding information if
+        application functions as server of as a client.
+     */
+
     private boolean serverFunctionality;
+
+    /*
+        @ clientSocket: This variable is used for holding Socket object
+        that is required for communication with the other side of connection, but
+        from the client side.
+     */
+
     private Socket clientSocket;
+
+    /*
+        @ serverSocket: This variable is used for holding Socket object
+        that is required for communication with the other side of connection, but
+        from the server side.
+     */
+
     private ServerSocket serverSocket;
+
+    /*
+        @ serverSideSocket: Actual socket object, used in communication.
+     */
+
     private Socket serverSideSocket;
+
+    /*
+        @ outputStream: Variable used for holding outputStream
+        opened object instance.
+     */
+
     private OutputStream outputStream;
+
+    /*
+        @ inputStream: Variable used for holding inputStream
+        opened object instance.
+     */
+
     private InputStream inputStream;
+
+    /*
+        @ objectOutputStream: Variable used for holding objectOutputStream
+        opened object instance.
+     */
+
     private ObjectOutputStream objectOutputStream;
+
+    /*
+        @ objectInputStream: Variable used for holding objectInputStream
+        opened object instance.
+     */
+
     private ObjectInputStream objectInputStream;
 
     // Used for decoding.
@@ -50,6 +103,16 @@ public class UserActionController {
 
     /*
         @ Methods:
+     */
+
+    /*
+        @ Method: initialize()
+
+        @ Parameters: None
+
+        @ Description: This method is used to include some options in combo-boxes in GUI, and for
+        making some buttons disabled.
+        Started automatically by JavaFX app.
      */
 
     @FXML
@@ -60,10 +123,33 @@ public class UserActionController {
         finishButton.setDisable(true);
     }
 
+    /*
+        @ Method: showAuthors()
+
+        @ Parameters: None
+
+        @ Description: This method is used to show authors' data.
+     */
+
     @FXML
     public void showAuthors() {
         showPupUpWindow("Autorzy programu", "Aleksander Janicki 242405\nPiotr Kwiatkowski 242447");
     }
+
+    /*
+        @ Method: throwAlert()
+
+        @ Parameters:
+
+        * typeOfAlert   -> error of thrown alert
+        * title         -> title of the window
+        * header        -> header message inside the window
+        * content       -> content inside the window - in most of the cases it is the reason for
+        a certain exception being thrown
+
+        @ Description: This method is used mainly to communicate to the user some problems
+        that can occur through inappropriate use of the program.
+     */
 
     private void throwAlert(Alert.AlertType typeOfAlert, String title, String header, String content) {
         Alert alert = new Alert(typeOfAlert);
@@ -73,6 +159,17 @@ public class UserActionController {
         alert.show();
     }
 
+    /*
+        @ Method: showPupUpWindow()
+
+        @ Parameters:
+
+        * title -> title of the popup window.
+        * content -> actual content of the popup - containing in this case authors' data.
+
+        @ Description: Method for showing a windows with some text.
+     */
+
     private void showPupUpWindow(String title, String content) {
         Dialog<String> popUpWin = new Dialog<>();
         popUpWin.setTitle(title);
@@ -81,6 +178,15 @@ public class UserActionController {
         popUpWin.getDialogPane().getButtonTypes().add(closeWindow);
         popUpWin.show();
     }
+
+    /*
+        @ Method: encodeText()
+
+        @ Parameters: None
+
+        @ Description: Method that is used for encoding text inserted into decodedTextArea. It also uses
+        isBinaryContent checkbox to determine if input text is binary representation of a file or not.
+     */
 
     @FXML
     public void encodeText() {
@@ -96,6 +202,15 @@ public class UserActionController {
         encodedTextArea.setText(new String(Converter.convertAsciiToHexadecimal(encodedMessage), StandardCharsets.US_ASCII));
     }
 
+    /*
+        @ Method: decodeText()
+
+        @ Parameters: None
+
+        @ Description: Method that is used for decoding text inserted into encodedTextArea. It also uses
+        isBinaryContent checkbox to determine if input text is binary representation of a file or not.
+     */
+
     @FXML
     public void decodeText() {
         byte[] textToDecode = Converter.convertHexadecimalToAscii(encodedTextArea.getText().getBytes(StandardCharsets.US_ASCII));
@@ -107,6 +222,15 @@ public class UserActionController {
             decodedTextArea.setText(new String(decodedMessage, StandardCharsets.UTF_8));
         }
     }
+
+    /*
+        @ Method: readDecodedFromAFile()
+
+        @ Parameters: None
+
+        @ Description: Method used to read content from a file - uses isBinaryContent to see if file to be input from
+        the user is binary or not. Besides it uses encodedContent - which reads it immediately into encodedTextArea.
+     */
 
     @FXML
     public void readDecodedFromAFile() {
@@ -134,6 +258,15 @@ public class UserActionController {
         }
     }
 
+    /*
+        @ Method: saveDecodedToAFile()
+
+        @ Parameters: None
+
+        @ Description: Method used to save content from a file - uses isBinaryContent to see if file to be input to
+        the file is binary or not. Besides it uses encodedContent - which saves it from encodedTextArea.
+     */
+
     @FXML
     public void saveDecodedToAFile() {
         FileChooser chooseFile = new FileChooser();
@@ -160,16 +293,23 @@ public class UserActionController {
         }
     }
 
+    /*
+        @ Method: sendTextToOtherHost()
+
+        @ Parameters: None
+
+        @ Description: Method used for sending content from decodedTextArea to host on the other side of connection.
+     */
+
     @FXML
     public void sendTextToOtherHost() {
         try {
-            OutputStream outputStream;
             if (serverFunctionality) {
                 outputStream = serverSideSocket.getOutputStream();
             } else {
                 outputStream = clientSocket.getOutputStream();
             }
-            ObjectOutputStream oos = new ObjectOutputStream(outputStream);
+            objectOutputStream = new ObjectOutputStream(outputStream);
             HuffmanCoding huffmanCode = new HuffmanCoding();
             byte[] textToEncode = null;
             if (isBinaryContent.isSelected()) {
@@ -180,13 +320,22 @@ public class UserActionController {
             occurrenceMap = huffmanCode.findOccurrenceMap(textToEncode);
             byte[] encodedText = huffmanCode.encodeWithHuffmanEncoding(textToEncode, occurrenceMap);
             encodedTextArea.setText(new String(Converter.convertAsciiToHexadecimal(encodedText), StandardCharsets.US_ASCII));
-            oos.writeObject(occurrenceMap);
-            oos.writeObject(encodedText);
-            oos.flush();
+            objectOutputStream.writeObject(occurrenceMap);
+            objectOutputStream.writeObject(encodedText);
+            objectOutputStream.flush();
         } catch (IOException ioException) {
             throwAlert(Alert.AlertType.ERROR, "Błąd", "Krytyczny błąd", "Nie udało się przesłać danych do serwera.");
         }
     }
+
+    /*
+        @ Method: startOperation()
+
+        @ Parameters: None
+
+        @ Description: Method used for starting content transfer from one host the second one - it requires user being
+        on the other side of connection to click appropriate button to receive the data.
+     */
 
     @FXML
     public void startOperation() {
@@ -231,6 +380,14 @@ public class UserActionController {
         }
     }
 
+    /*
+        @ Method: finishOperation()
+
+        @ Parameters: None
+
+        @ Description: Method used for closing connection between two hosts.
+     */
+
     @FXML
     public void finishOperation() {
         try {
@@ -258,6 +415,15 @@ public class UserActionController {
         finishButton.setDisable(true);
     }
 
+    /*
+        @ Method: changeFunction()
+
+        @ Parameters: None
+
+        @ Description: This method is used from changing boolean value of serverFunctionality every time user
+        changes the mode of functionality.
+     */
+
     @FXML
     public void changeFunction() {
         finishOperation();
@@ -271,18 +437,25 @@ public class UserActionController {
         finishButton.setDisable(true);
     }
 
+    /*
+        @ Method: receiveDataFromSecondHost()
+
+        @ Parameters: None
+
+        @ Description: Method used for receiving data from the host on the other side of the connection.
+     */
+
     @FXML
     public void receiveDataFromSecondHost() {
         try {
-            InputStream inputStream;
             if (serverFunctionality) {
                 inputStream = serverSideSocket.getInputStream();
             } else {
                 inputStream = clientSocket.getInputStream();
             };
-            ObjectInputStream ois = new ObjectInputStream(inputStream);
-            occurrenceMap = (Map<Short, Integer>) ois.readObject();
-            byte[] savedContent = (byte[]) ois.readObject();
+            objectInputStream = new ObjectInputStream(inputStream);
+            occurrenceMap = (Map<Short, Integer>) objectInputStream.readObject();
+            byte[] savedContent = (byte[]) objectInputStream.readObject();
             encodedTextArea.setText(new String(Converter.convertAsciiToHexadecimal(savedContent), StandardCharsets.US_ASCII));
             HuffmanCoding huffmanCode = new HuffmanCoding();
             byte[] decodedText = huffmanCode.decodeWithHuffmanEncoding(savedContent, occurrenceMap);

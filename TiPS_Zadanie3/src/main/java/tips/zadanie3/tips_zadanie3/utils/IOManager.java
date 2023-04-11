@@ -9,6 +9,17 @@ import java.io.IOException;
 
 public class IOManager {
 
+    /*
+        @ Method: readBytesFromAFile()
+
+        @ Parameters:
+
+        * fileName -> Name of the file, which data should be read from.
+
+        @ Description: This method is used to read data from a file with given fileName.
+        Read data is stored as bytes in inputMessageInByteRepresentation.
+     */
+
     public static byte[] readBytesFromAFile(String fileName) throws IOManagerReadException {
         try (FileInputStream fileInputStream = new FileInputStream(fileName)) {
             return fileInputStream.readAllBytes();
@@ -16,6 +27,17 @@ public class IOManager {
             throw new IOManagerReadException("Error while reading data from a file: " + fileName);
         }
     }
+
+    /*
+        @ Method: writeBytesToAFile()
+
+        @ Parameters:
+
+        * fileName                  -> Name of the file, which data should be written to.
+        * arrayOfBytesToWrite       -> Array of bytes to be written to a file with given fileName.
+
+        @ Description: This method is used for writing data to a file with given, as a parameter, name.
+     */
 
     public static void writeBytesToAFile(String fileName, byte[] arrayOfBytesToWrite) throws IOManagerWriteException {
         try (FileOutputStream fileOutputStream = new FileOutputStream(fileName)) {

@@ -9,6 +9,13 @@ import java.io.IOException;
 
 public class StageSetup {
 
+    /*
+        @ General description:
+
+        This class is mainly used for creating / setting up scene, reading
+        it from the FXML file.
+     */
+
     private static Stage primaryStage;
 
     public static void setStage(Stage stage) {

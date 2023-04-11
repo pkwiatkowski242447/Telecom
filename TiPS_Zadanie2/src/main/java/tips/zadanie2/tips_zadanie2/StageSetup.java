@@ -1,4 +1,4 @@
-package tips.zadanie3.tips_zadanie3;
+package tips.zadanie2.tips_zadanie2;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,20 +10,19 @@ import java.io.IOException;
 public class StageSetup {
 
     /*
-        @ General description:
+        @ Class:
 
-        This class is mainly used for creating / setting up scene, reading
-        it from the FXML file.
+        This class is used for building stage according to given information.
      */
 
     private static Stage primaryStage;
 
-    public static void setStage(Stage stage) {
-        StageSetup.primaryStage = stage;
-    }
-
     public static Stage getStage() {
         return primaryStage;
+    }
+
+    private static void setStage(Stage stage) {
+        StageSetup.primaryStage = stage;
     }
 
     public static Parent fxmlFileLoad(String fxmlFromPath) throws IOException {

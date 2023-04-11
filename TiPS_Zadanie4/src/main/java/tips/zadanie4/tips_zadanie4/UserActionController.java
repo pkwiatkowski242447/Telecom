@@ -25,11 +25,52 @@ public class UserActionController {
     @FXML
     private Button finishPlayButton;
 
+    /*
+        @ Above attributes are used for customizing GUI combo-boxes, disabling buttons and so on.
+     */
+
+    /*
+        @ userInputSampleRate: Sample rate chosen by the user from combo-box. It is
+        already converted to float, since it will be easier to create RecordAudioManager with it.
+     */
+
     private float userInputSampleRate;
+
+    /*
+        @ userInputSampleSizeInBits: Sample size in bits chosen by the user from combo-box. It is
+        already converted to integer, since it will be easier to create RecordAudioManager with it.
+     */
+
     private int userInputSampleSizeInBits;
+
+    /*
+        @ userInputNumberOfChannels: Number of channels chosen by the user from combo-box. It is
+        already converted to integer, since it will be easier to create RecordAudioManager with it.
+     */
+
     private int userInputNumberOfChannels;
+
+    /*
+        @ recordAudioManager: Variable holding recordAudioManager object
+        that will be used later for recording sound.
+     */
+
     private RecordAudioManager recordAudioManager;
+
+    /*
+        @ playAudioManager: Variable holding recordAudioManager object
+        that will be used later for playing recorded sound.
+     */
+
     private PlayAudioManager playAudioManager;
+
+    /*
+        @ Method: initialize()
+
+        @ Parameters: None
+
+        @ Description: Method used for initializing combo-boxes content, disabling some button and so on.
+     */
 
     @FXML
     public void initialize() {
@@ -49,20 +90,56 @@ public class UserActionController {
         updateNumberOfChannels();
     }
 
+    /*
+        @ Method: updateSampleRate()
+
+        @ Parameters: None
+
+        @ Description: This method is used for updating sampleRate value. It is called by
+        updateAllData() method.
+     */
+
     private void updateSampleRate() {
         String sampleRateInString = sampleRate.getSelectionModel().getSelectedItem().toString();
         userInputSampleRate = Float.parseFloat(sampleRateInString);
     }
+
+    /*
+        @ Method: updateSampleSizeInBits()
+
+        @ Parameters: None
+
+        @ Description: This method is used for updating sampleSizeInBits value. It is called by
+        updateAllData() method.
+     */
 
     private void updateSampleSizeInBits() {
         String sampleSizeInBitsInString = sampleSizeInBits.getSelectionModel().getSelectedItem().toString();
         userInputSampleSizeInBits = Integer.parseInt(sampleSizeInBitsInString);
     }
 
+    /*
+        @ Method: updateNumberOfChannels()
+
+        @ Parameters: None
+
+        @ Description: This method is used for updating numberOfChannels value. It is called by
+        updateAllData() method.
+     */
+
     private void updateNumberOfChannels() {
         String numberOfChannelsInString = numberOfChannels.getSelectionModel().getSelectedItem().toString();
         userInputNumberOfChannels = Integer.parseInt(numberOfChannelsInString);
     }
+
+    /*
+        @ Method: updateAllData()
+
+        @ Parameters: None
+
+        @ Description: This method is used for updating all the data selected by
+        the user from the combo-boxes.
+     */
 
     private void updateAllData() {
         updateSampleRate();
@@ -70,10 +147,34 @@ public class UserActionController {
         updateNumberOfChannels();
     }
 
+    /*
+        @ Method: showAuthors()
+
+        @ Parameters: None
+
+        @ Description: This method is used to show authors' data.
+     */
+
     @FXML
     public void showAuthors() {
         showPupUpWindow("Autorzy programu", "Aleksander Janicki 242405\nPiotr Kwiatkowski 242447");
     }
+
+
+    /*
+        @ Method: throwAlert()
+
+        @ Parameters:
+
+        * typeOfAlert   -> error of thrown alert
+        * title         -> title of the window
+        * header        -> header message inside the window
+        * content       -> content inside the window - in most of the cases it is the reason for
+        a certain exception being thrown
+
+        @ Description: This method is used mainly to communicate to the user some problems
+        that can occur through inappropriate use of the program.
+     */
 
     private void throwAlert(Alert.AlertType typeOfAlert, String title, String header, String content) {
         Alert alert = new Alert(typeOfAlert);
@@ -83,6 +184,17 @@ public class UserActionController {
         alert.show();
     }
 
+    /*
+        @ Method: showPupUpWindow()
+
+        @ Parameters:
+
+        * title -> title of the popup window.
+        * content -> actual content of the popup - containing in this case authors' data.
+
+        @ Description: Method for showing a windows with some text.
+     */
+
     private void showPupUpWindow(String title, String content) {
         Dialog<String> popUpWin = new Dialog<>();
         popUpWin.setTitle(title);
@@ -91,6 +203,14 @@ public class UserActionController {
         popUpWin.getDialogPane().getButtonTypes().add(closeWindow);
         popUpWin.show();
     }
+
+    /*
+        @ Method: startRecordingSound()
+
+        @ Parameters: None
+
+        @ Description: This method is used for starting a recording of sound from user microphone.
+     */
 
     @FXML
     public void startRecordingSound() {
@@ -114,6 +234,14 @@ public class UserActionController {
         }
     }
 
+    /*
+        @ Method: stopRecordingSound()
+
+        @ Parameters: None
+
+        @ Description: This method is used for cutting user recorded sound.
+     */
+
     @FXML
     public void stopRecordingSound() {
         try {
@@ -124,6 +252,14 @@ public class UserActionController {
             throwAlert(Alert.AlertType.ERROR, "Błąd", "Krytyczny błąd", "Nagrywanie zostało już zakończone.");
         }
     }
+
+    /*
+        @ Method: startPlayingRecordedSound()
+
+        @ Parameters: None
+
+        @ Description: This method is responsible for recording sound, recorded by user microphone.
+     */
 
     @FXML
     public void startPlayingRecordedSound() {
@@ -139,6 +275,14 @@ public class UserActionController {
             throwAlert(Alert.AlertType.ERROR, "Bład", "Krytyczny błąd", "Nie podano nazwy pliku");
         }
     }
+
+    /*
+        @ Method: finishPlayingRecordedSound()
+
+        @ Parameters: None
+
+        @ Description: This method is used for cutting played sound, before the end of it.
+     */
 
     @FXML
     public void finishPlayingRecordedSound() {
