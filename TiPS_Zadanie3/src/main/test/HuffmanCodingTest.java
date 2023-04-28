@@ -9,7 +9,7 @@ public class HuffmanCodingTest {
 
     @Test
     public void HuffmanCodingTest() {
-        byte[] textToEncode = "Zażółć gęsią jaźń.".getBytes(StandardCharsets.UTF_8);
+        byte[] textToEncode = "............AAAAAAAAAAA".getBytes(StandardCharsets.UTF_8);
         HuffmanCoding huffmanCode = new HuffmanCoding();
         Map<Short, Integer> occurrenceMap = huffmanCode.findOccurrenceMap(textToEncode);
         byte[] encodedMessage = huffmanCode.encodeWithHuffmanEncoding(textToEncode, occurrenceMap);
