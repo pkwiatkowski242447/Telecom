@@ -43,7 +43,9 @@ public class UserActionController {
     @FXML
     private Button endConnectionButton;
     @FXML
-    private MenuButton programFunction;
+    private TextField valueForRecording;
+    @FXML
+    private TextField valueForPlaying;
 
     /*
         @ Above attributes are used for customizing GUI combo-boxes, disabling buttons and so on.
@@ -142,6 +144,7 @@ public class UserActionController {
         endConnectionButton.setDisable(true);
 
         updateAllData();
+        refreshValues();
     }
 
     /*
@@ -507,5 +510,28 @@ public class UserActionController {
         }
         startConnectionButton.setDisable(false);
         endConnectionButton.setDisable(true);
+    }
+
+    @FXML
+    public void refreshValues() {
+        updateAllData();
+        double snrValue = 20 * Math.log10(Math.pow(2, userInputSampleSizeInBits));
+        valueForRecording.setText(String.valueOf(snrValue));
+        snrValue = 20 * Math.log10(Math.pow(2, userInputSampleSizeInBitsForPlaying));
+        valueForPlaying.setText(String.valueOf(snrValue));
+    }
+
+    @FXML
+    public void refreshValueForRecording() {
+        updateSampleSizeInBits();
+        double snrValue = 20 * Math.log10(Math.pow(2, userInputSampleSizeInBits));
+        valueForRecording.setText(String.valueOf(snrValue));
+    }
+
+    @FXML
+    public void refreshValueForPlaying() {
+        updateSampleSizeInBitsForPlaying();
+        double snrValue = 20 * Math.log10(Math.pow(2, userInputSampleSizeInBitsForPlaying));
+        valueForPlaying.setText(String.valueOf(snrValue));
     }
 }
