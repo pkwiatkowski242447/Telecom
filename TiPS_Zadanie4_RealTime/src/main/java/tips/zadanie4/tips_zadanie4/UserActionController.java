@@ -477,7 +477,7 @@ public class UserActionController {
             InputStream inputStream = usedSocket.getInputStream();
             DataInputStream dataInputStream = new DataInputStream(inputStream);
             userInputSampleSizeInBits = dataInputStream.readInt();
-            sampleSizeInBits.setValue(String.valueOf(userInputSampleSizeInBits));
+            sampleSizeInBitsForPlaying.setValue(String.valueOf(userInputSampleSizeInBits));
             refreshValueForPlaying();
             soundServer = new SoundServer(userInputSampleRateForPlaying, userInputSampleSizeInBitsForPlaying, userInputNumberOfChannelsForPlaying);
             soundClient = new SoundClient(userInputSampleRate, userInputSampleSizeInBits, userInputNumberOfChannels);
