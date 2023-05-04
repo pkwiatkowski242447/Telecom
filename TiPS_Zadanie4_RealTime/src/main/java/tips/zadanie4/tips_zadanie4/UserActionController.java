@@ -12,7 +12,7 @@ import tips.zadanie4.tips_zadanie4.exceptions.LineWithGivenParametersNotSupporte
 import tips.zadanie4.tips_zadanie4.exceptions.SourceDataLineException;
 import tips.zadanie4.tips_zadanie4.exceptions.TargetDataLineException;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -470,6 +470,15 @@ public class UserActionController {
     @FXML
     private void startConnection() {
         try {
+            OutputStream outputStream = usedSocket.getOutputStream();
+            DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
+            dataOutputStream.writeInt(userInputSampleSizeInBits);
+            Thread.sleep(1000);
+            InputStream inputStream = usedSocket.getInputStream();
+            DataInputStream dataInputStream = new DataInputStream(inputStream);
+            userInputSampleSizeInBits = dataInputStream.readInt();
+            sampleSizeInBits.setValue(String.valueOf(userInputSampleSizeInBits));
+            refreshValueForPlaying();
             soundServer = new SoundServer(userInputSampleRateForPlaying, userInputSampleSizeInBitsForPlaying, userInputNumberOfChannelsForPlaying);
             soundClient = new SoundClient(userInputSampleRate, userInputSampleSizeInBits, userInputNumberOfChannels);
             soundClient.startSoundSending(usedSocket.getOutputStream());
@@ -482,6 +491,8 @@ public class UserActionController {
             throwAlert(Alert.AlertType.ERROR, "Błąd", "Wystąpił błąd", sourceDataLineException.getMessage());
         } catch (IOException ioException) {
             throwAlert(Alert.AlertType.ERROR, "Błąd", "Wystąpił błąd", "Powód: " + ioException.getMessage());
+        } catch(Exception exception) {
+            throwAlert(Alert.AlertType.ERROR, "Błąd", "Wystąpił błąd", "Powód: " + exception.getMessage());
         }
     }
 
